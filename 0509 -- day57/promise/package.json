@@ -1,0 +1,18 @@
+{
+  "name": "promise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "00.js",
+  "scripts": {
+    "json:server": "json-server --watch data.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "http-server": "^0.12.3",
+    "jquery": "^3.5.1",
+    "json-server": "^0.16.1"
+  }
+}

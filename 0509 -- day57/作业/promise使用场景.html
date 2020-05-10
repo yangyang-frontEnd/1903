@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/art-template/lib/template-web.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+</head>
+
+<body id="bd">
+    <form action="" method="post" id="user_form"></form>
+
+    <script type="text/template" id="test">
+        <div>
+            <label for="">用户名:</label>
+            <input type="text" value="{{user.username}}"/>
+        </div>
+        <div>
+            <label for="">年龄:</label>
+            <input type="number" value="{{user.age}}"/>
+        </div>
+        <div>
+            <label for="">职业:</label>
+            <select name="" id="">
+                {{each jobs}}
+                    {{if user.job == $value.id}}
+                        <option value="{{$value.id}}" selected>{{$value.name}}</option>
+                    {{else}}
+                        <option value="{{$value.id}}">{{$value.name}}</option>
+                    {{/if}}
+                {{/each}}
+            </select>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        // 写法一：用回调嵌套 
+        /*         get('http://localhost:3000/users/3', function (userData) {
+                    // console.log(JSON.parse(data));
+                    get('http://localhost:3000/jobs', function (jobsData) {
+                        userData = JSON.parse(userData)
+                        jobsData = JSON.parse(jobsData)
+        
+                        let htmlStr = template('test', {
+                            user: userData,
+                            jobs: jobsData
+                        })
+        
+                        document.querySelector('#user_form').innerHTML = htmlStr
+        
+                    })
+                }) */
+
+        function get(url, callback) {
+            let xhr = new XMLHttpRequest()
+            xhr.onload = function () {
+                callback(xhr.responseText)
+            }
+            xhr.open('get', url, true)
+            xhr.send()
+        }
+        // 写法二：用jquery 封装好的 $.get 请求ajax
+        let data = {}
+        $.get('http://localhost:3000/users/3')
+            .then(function (user) {
+                console.log(user);
+                data.user = user
+                return $.get('http://localhost:3000/jobs')
+            })
+            .then(function (jobs) {
+                console.log(jobs);
+                data.jobs = jobs
+                let htmlStr = template('test', data)
+                document.querySelector('#user_form').innerHTML = htmlStr
+            })
+        // 写法三：自己用promis封装
+
+        let db = {}
+        function getData(url) {
+            return new Promise((resolve, reject) => {
+                get(url, function (data) {
+                    db.data = JSON.parse(data)
+                })
+            })
+        }
+        getData('http://localhost:3000/users/3')
+            .then(() => {
+                return getData('http://localhost:3000/jobs')
+            })
+            .then(() => {
+                let htmlStr = template('test', db)
+                document.querySelector('#user_form').innerHTML = htmlStr
+            })
+    </script>
+</body>
+
+</html>
