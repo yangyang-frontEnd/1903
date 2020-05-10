@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)http://192.168.150.76:3000/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>留言本</title>
+  <!--
+  	浏览器收到html响应的内容后,就要开始从上到下依次解析
+  	link
+  	script
+  	img
+  	iframe
+  	video
+  	audio
+  	都带有 src 或者href属性,链接外部资源,浏览器会对这些资源重新发起求
+  	
+  -->
+  <link rel="stylesheet" href="/public/bootstrap/css/bootstrap.css">
+  <!--<link rel="stylesheet" href="/public/css/index.css" />-->
+<link rel="stylesheet" type="text/css" href="chrome-extension://fidicgekecdkdmkjghdgadgdmcfodfid/themes/default/content.css"></head>
+
+<body>
+	<!--<img src="/public/img/ab3.jpg" alt="" />-->
+  <div class="header container">
+    <div class="page-header">
+      <h1>Example page header <small>Subtext for header</small></h1>
+      <a class="btn btn-success" href="/post">发表留言</a>
+    </div>
+  </div>
+  <div class="comments container">
+    <ul class="list-group">
+      {{each comments}}
+      <li class="list-group-item">{{$value.name}}说：{{$value.message}} <span class="pull-right">{{$value.createTime}}</span></li>
+      {{/each}}
+      
+    </ul>
+  </div>
+<!--<script src="/public/js/index.js" type="text/javascript" charset="utf-8"></script>-->
+
+
+</body></html>
